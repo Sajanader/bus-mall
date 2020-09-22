@@ -1,6 +1,6 @@
 var names = [{name:'bag', ext:'jpg'}, {name:'banana', ext:'jpg'}, {name:'bathroom', ext:'jpg'}, {name:'boots', ext:'jpg'},
 {name:'breakfast', ext:'jpg'} , {name:'bubblegum', ext:'jpg'},{name:'chair', ext:'jpg'},{name: 'cthulhu', ext:'jpg'}, {name:'dog-duck', ext:'jpg'}, 
- {name:'dragon', ext:'jpg'}, {name:'pen', ext:'jpg'}, {name:'pet-sweep', ext:'jpg'}, {name:'scissors', ext:'jpg'}, {name:'shark', ext:'jpg'},
+{name:'dragon', ext:'jpg'}, {name:'pen', ext:'jpg'}, {name:'pet-sweep', ext:'jpg'}, {name:'scissors', ext:'jpg'}, {name:'shark', ext:'jpg'},
 {name:'sweep', ext:'png'} , {name:'tauntaun', ext:'jpg'} , {name:'unicorn', ext:'jpg'}, {name:"usb", ext:'gif'},
 {name:'water-can', ext:'jpg'}, {name:'wine-glass', ext:'jpg'}];
 
@@ -9,8 +9,8 @@ let rightImageEl = document.getElementById('right-image');
 let centerImageEl = document.getElementById('center-image');
 let rounds= 0;
 function Product(name,ext) {
-    this.name = name;
-    this.path = `images/${name}.${ext}`;
+this.name = name;
+this.path = `images/${name}.${ext}`;
     this.show = 0;
     this.clicks=0;
     Product.all.push(this);
@@ -102,22 +102,64 @@ var results= new Chart(ctx, {
     data: show,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                
+            ],
+            borderWidth: 1},
+            {
+            label: '# of Clicks',
+            data: clicks,
+            backgroundColor: [
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                'rgb(221,160,221)',
+                
+
+                
+            ],
+            borderColor: [
             ],
             borderWidth: 1
-        }]
+        },
+        ],
     },
     options: {
         scales: {
