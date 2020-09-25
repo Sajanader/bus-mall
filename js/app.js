@@ -1,13 +1,32 @@
-var names = [{ name: 'bag', ext: 'jpg' }, { name: 'banana', ext: 'jpg' }, { name: 'bathroom', ext: 'jpg' }, { name: 'boots', ext: 'jpg' },
-{ name: 'breakfast', ext: 'jpg' }, { name: 'bubblegum', ext: 'jpg' }, { name: 'chair', ext: 'jpg' }, { name: 'cthulhu', ext: 'jpg' },
-{ name: 'dog-duck', ext: 'jpg' }, { name: 'dragon', ext: 'jpg' }, { name: 'pen', ext: 'jpg' }, { name: 'pet-sweep', ext: 'jpg' },
-{ name: 'scissors', ext: 'jpg' }, { name: 'shark', ext: 'jpg' }, { name: 'sweep', ext: 'png' }, { name: 'tauntaun', ext: 'jpg' },
-{ name: 'unicorn', ext: 'jpg' }, { name: "usb", ext: 'gif' }, { name: 'water-can', ext: 'jpg' }, { name: 'wine-glass', ext: 'jpg' }];
+// create an object has two variable properties 
+
+var names =
+    [{ name: 'bag', ext: 'jpg' },
+    { name: 'banana', ext: 'jpg' },
+    { name: 'bathroom', ext: 'jpg' },
+    { name: 'boots', ext: 'jpg' },
+    { name: 'breakfast', ext: 'jpg' },
+    { name: 'bubblegum', ext: 'jpg' },
+    { name: 'chair', ext: 'jpg' },
+    { name: 'cthulhu', ext: 'jpg' },
+    { name: 'dog-duck', ext: 'jpg' },
+    { name: 'dragon', ext: 'jpg' },
+    { name: 'pen', ext: 'jpg' },
+    { name: 'pet-sweep', ext: 'jpg' },
+    { name: 'scissors', ext: 'jpg' },
+    { name: 'shark', ext: 'jpg' },
+    { name: 'sweep', ext: 'png' },
+    { name: 'tauntaun', ext: 'jpg' },
+    { name: 'unicorn', ext: 'jpg' },
+    { name: "usb", ext: 'gif' },
+    { name: 'water-can', ext: 'jpg' },
+    { name: 'wine-glass', ext: 'jpg' }];
 
 let leftImageEl = document.getElementById('left-image');
 let centerImageEl = document.getElementById('center-image');
 let rightImageEl = document.getElementById('right-image');
 let sectionEl = document.getElementById("images");
+showPreviousProduct = [];
 let rounds = 0;
 function Product(name, ext) {
     this.name = name;
@@ -19,17 +38,31 @@ function Product(name, ext) {
 Product.all = [];
 for (let i = 0; i < names.length; i++) {
     new Product(names[i].name, names[i].ext);
-    console.log(Product.all[i]);
 }
+// set Item in local storage
+    function setProducts() {
+        var x = JSON.stringify(Product.all);
+        localStorage.setItem('order', x);
+     
+    }
+// get item from local storage
+function getProducts() {
+    var z= localStorage.getItem('order');
+    if (z){  Product.all= JSON.parse(z);}           
+     }
+    //  create function render that display three images.
 function render() {
     let leftIndex = randomNumber(0, Product.all.length - 1);
     let centerIndex = randomNumber(0, Product.all.length - 1);
     let rightIndex = randomNumber(0, Product.all.length - 1);
-    while (leftIndex === centerIndex || leftIndex === rightIndex || rightIndex === centerIndex) {
+    while (leftIndex === centerIndex || leftIndex === rightIndex || rightIndex === centerIndex || showPreviousProduct.includes(leftIndex) ||
+        showPreviousProduct.includes(centerIndex) || showPreviousProduct.includes(rightIndex)) {
         leftIndex = randomNumber(0, Product.all.length - 1);
         centerIndex = randomNumber(0, Product.all.length - 1);
         rightIndex = randomNumber(0, Product.all.length - 1);
     }
+     // showPreviousProduct.push(leftIndex, centerIndex, rightIndex);
+    console.log(showPreviousProduct);
     leftImageEl.src = Product.all[leftIndex].path;
     centerImageEl.src = Product.all[centerIndex].path;
     rightImageEl.src = Product.all[rightIndex].path;
@@ -42,12 +75,20 @@ function render() {
     Product.all[rightIndex].show++;
 
 }
-render();
+// add event listener when click and choose one images.
 sectionEl.addEventListener('click', clickHandler);
 function clickHandler(event) {
+    // the clicks must be clicked on images just not in the section outside images.
     if (event.target.id !== "images") {
-        if (rounds < 24) {
-            rounds++
+        rounds++
+        // number of rounds are 25 times.
+        if (rounds < 25) {
+            for (let i = 0; i < Product.all.length; i++) {
+                if (event.target.title === Product.all[i].name) {
+                    Product.all[i].clicks++;
+                         
+                }
+            }
             render();
         }
         else {
@@ -55,15 +96,11 @@ function clickHandler(event) {
             finalResult();
             chart();
             setProducts();
-            getProducts();                                              
-        }
-        for (let i = 0; i < Product.all.length; i++) {
-            if (Product.all[i].name === event.target.title) {
-                Product.all[i].clicks++;
-            }
+                                 
         }
     }
 }
+// create a list which has number of votes and number of images' view.
 function finalResult() {
     var articleEl = document.getElementById('result');
     sectionEl.appendChild(articleEl);
@@ -78,10 +115,13 @@ function finalResult() {
     }
 }
 
+
+//  create function to choose the displayed images randomly.
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
+render();
+// create chart to show the previous listed results by chart
 function chart() {
     var ctx = document.getElementById('myChart');
     var names = [];
@@ -100,26 +140,26 @@ function chart() {
                 label: '# of Views',
                 data: show,
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
+                    '#64e45f',
 
                 ],
                 borderColor: [
@@ -131,26 +171,26 @@ function chart() {
                 label: '# of Clicks',
                 data: clicks,
                 backgroundColor: [
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
-                    'rgb(221,160,221)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
+                    ' rgb(16, 158, 240)',
 
 
 
@@ -172,22 +212,4 @@ function chart() {
         }
     });
 }
-function setProducts() {
-    var x = JSON.stringify(Product.all);
-    localStorage.setItem('order', x);
-}
-function getProducts() {
-    var z = localStorage.getItem('order');
-    var y = JSON.parse(z);
-    if (y) {
-        for (var i = 0; i < y.length; i++) {
-            new Product(
-                y[i].name,
-                y[i].path,
-                y[i].show,
-                y[i].clicks,
-            );
-        }
-    }
-}
-
+getProducts();
